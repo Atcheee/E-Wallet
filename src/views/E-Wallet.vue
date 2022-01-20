@@ -1,51 +1,30 @@
 <template>
-  <div id="app">
-    <div class="E-Wallet" v-if="currentView == 'mainView'">
-      <h1>E-WALLET</h1>
-      <p>ACTIVE CARD</p>
-      <footer>
-        <button @click="currentView = 'AddCard'">ADD A NEW CARD</button>
-      </footer>
+    <div id="EWallet">
+    <div class="E-Wallet">
+    <h1>E-WALLET</h1>
+    <p>ACTIVE CARD</p>
+    <footer>
+      <button @click="currentView == 'AddCard'" >ADD A NEW CARD</button>
+    </footer>
     </div>
-    <AddCard v-if="currentView == 'AddCard'" @send="cardDetails" />
-    <Cards v-else-if="currentView == 'Cards'" />
   </div>
 </template>
 
 <script>
-import * as Views from "./views";
 export default {
-  components: {
-    Cards: Views.Cards,
-    AddCard: Views.AddCard,
-  },
-  data() {
-    return {
-      currentView: "",
-    };
-  },
-  beforeMount() {
-    this.currentView = "mainView";
-  },
-  methods: {
-    cardDetails(credentials) {
-      this.userInput = credentials
-    },
-  },
-};
+    data(){return{
+        currentView: "",
+    }},
+}
 </script>
 
 <style lang="scss">
+
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=PT+Mono&display=swap");
 
-body {
-  background-color: #eee;
-  display: grid;
-  place-items: center;
-}
 
-#app {
+#EWallet {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -94,4 +73,5 @@ footer {
     background-color: white;
   }
 }
+
 </style>

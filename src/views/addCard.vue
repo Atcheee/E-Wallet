@@ -7,13 +7,13 @@
       </h1>
       <p>NEW CARD</p>
     </header>
-    <div id="cards">
+    <div id="Cards">
       <div class="card">
-        <div class="card-front card-part">
+        <div class="card-front card-part" :class="bgcolor">
           <img class="card-wifi" src="../assets/wifi.svg" alt="wifi icon" />
           <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
           <img class="card-logo" src="" />
-          <p class="card_numer">{{ userInput.cardNumber }}</p>
+          <p class="card_number">{{ userInput.cardNumber }}</p>
           <div class="card-space-75">
             <span class="card-label">CARDHOLDER NAME</span>
             <p class="card-info">{{ userInput.cardHolder }}</p>
@@ -36,7 +36,6 @@
             id="cardNumber"
             type="number"
             name="cardNumber"
-            pattern=".{,16}"
             v-model="userInput.cardNumber"
           />
         </p>
@@ -55,38 +54,67 @@
         <p>
           <label for="month">MONTH</label>
           <br />
-          <input
-            id="month"
-            type="number"
-            name="month"
-            v-model="userInput.month"
-          />
+          <select name="month" id="month" v-model="userInput.month">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+          </select>
         </p>
 
         <p>
           <label for="year">YEAR</label>
           <br />
-          <input type="number" name="year" v-model="userInput.year" />
+          <select name="year" id="year" v-model="userInput.year">
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+          </select>
         </p>
 
         <p>
           <label for="vendor"></label>
-          <select id="vendor" name="vendor">
+          <select id="vendor" name="vendor" v-model="bgcolor">
             <option disabled selected value>-- select an option --</option>
-            <option>BITCOIN INC</option>
-            <option>NINJA BANK</option>
-            <option>BLOCK CHAIN INC</option>
-            <option>EVIL CORP</option>
+            <option
+              v-for="backgroundClass in this.colorClasses"
+              :key="backgroundClass"
+            >
+              {{ backgroundClass }}
+            </option>
           </select>
         </p>
-        <button>ADD CARD</button>
+        <button @click="addCard" @send="cardDetails">ADD CARD</button>
       </form>
+      <Cards v-model="content" />
     </main>
   </div>
 </template>
 
 <script>
+import Cards from "./cards.vue";
+
+function IdGenerator() { // unique id generator
+  return Math.floor(Math.random() * Math.pow(10, 25)).toString();
+}
+
+function perseveredData(data) {
+  localStorage.setItem("cardData", JSON.stringify(data));
+}
+
 export default {
+  components: { Cards },
   data() {
     return {
       userInput: {
@@ -95,17 +123,47 @@ export default {
         cardHolder: null,
         month: "",
         year: "",
-        numberSum: 0,
       },
+      content: "",
+      Cards: [],
+      bgcolor: "defaultColor",
+      colorClasses: [
+        "BITCOIN INC",
+        "NINJA BANK",
+        "BLOCKCHAIN INC",
+        "EVIL CORP",
+      ], // not sure if this should be in userInput or not, leaving it here for now
     };
   },
   methods: {
     submit() {
       this.$emit("send", { ...this.userInput });
     },
-    expirationDate() {
+    expirationDate() { // combinds the expiration date and the year (plus a slash symbol in the middle)
       return this.userInput.month + "/" + this.userInput.year;
     },
+    cardDetails(credentials) {
+      this.Cards = credentials;
+    },
+    addCard() {
+      this.Cards.push({
+        id: IdGenerator(),
+        content:
+          this.userInput.cardNumber +
+          " " +
+          this.userInput.cardHolder +
+          " " +
+          this.expirationDate(),
+      });
+      this.content = "";
+      perseveredData(this.Cards);
+    },
+  },
+  created() {
+    let savedCardData = localStorage.getItem("cardData");
+    if (savedCardData) {
+      this.Cards = JSON.parse(savedCardData);
+    }
   },
 };
 </script>
@@ -136,6 +194,10 @@ body {
   perspective: 600px;
 }
 
+#Cards {
+  display: inline-block;
+}
+
 .card-part {
   box-shadow: 1px 1px #aaa3a3;
   top: 0;
@@ -145,11 +207,14 @@ body {
   display: inline-block;
   width: 320px;
   height: 190px;
-  background: gray;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   border-radius: 8px;
+}
+
+.defaultColor {
+  background: gray;
 }
 
 .card-front {
@@ -184,7 +249,7 @@ body {
   margin: 1.5rem;
 }
 
-.card_numer {
+.card_number {
   display: block;
   width: 100%;
   word-spacing: 4px;
@@ -229,5 +294,18 @@ form {
     background-color: black;
     font-size: 18px;
   }
+}
+
+.BITCOIN.INC {
+  background-color: #ffae34;
+}
+.NINJA.BANK {
+  background-color: #222222;
+}
+.BLOCKCHAIN.INC {
+  background-color: #8b58f9;
+}
+.EVIL.CORP {
+  background-color: #f33355;
 }
 </style>

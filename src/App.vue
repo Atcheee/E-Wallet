@@ -9,6 +9,7 @@
     </div>
     <AddCard v-if="currentView == 'AddCard'" @send="cardDetails" />
     <Cards v-else-if="currentView == 'Cards'" />
+    <EWallet v-else-if="currentView == 'EWallet'" />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
   components: {
     Cards: Views.Cards,
     AddCard: Views.AddCard,
+    EWallet: Views.EWallet,
   },
   data() {
     return {

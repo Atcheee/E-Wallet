@@ -95,17 +95,15 @@
             </option>
           </select>
         </p>
-        <button @click="addCard" @send="cardDetails">ADD CARD</button>
+        <button @click="addCard" >ADD CARD</button>
       </form>
-      <Cards v-model="content" />
     </main>
   </div>
 </template>
 
 <script>
-import Cards from "./cards.vue";
 
-function IdGenerator() { // unique id generator
+function IdGenerator() {
   return Math.floor(Math.random() * Math.pow(10, 25)).toString();
 }
 
@@ -114,11 +112,10 @@ function perseveredData(data) {
 }
 
 export default {
-  components: { Cards },
+  props: ['AddCardView'],
   data() {
     return {
       userInput: {
-        errors: [],
         cardNumber: null,
         cardHolder: null,
         month: "",
@@ -142,9 +139,6 @@ export default {
     expirationDate() { // combinds the expiration date and the year (plus a slash symbol in the middle)
       return this.userInput.month + "/" + this.userInput.year;
     },
-    cardDetails(credentials) {
-      this.Cards = credentials;
-    },
     addCard() {
       this.Cards.push({
         id: IdGenerator(),
@@ -157,6 +151,15 @@ export default {
       });
       this.content = "";
       perseveredData(this.Cards);
+    },
+        addTodo(){
+      this.Cards.push({
+        id: IdGenerator(),
+        content: this.content,
+        done: false
+      })
+      this.content = ''
+      perseveredData(this.Cards)
     },
   },
   created() {

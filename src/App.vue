@@ -7,9 +7,9 @@
         <button @click="currentView = 'AddCard'">ADD A NEW CARD</button>
       </footer>
     </div>
-    <AddCard v-if="currentView == 'AddCard'" @send="cardDetails" />
-    <Cards v-else-if="currentView == 'Cards'" />
+    <AddCard v-if="currentView == 'AddCard'"  />
     <EWallet v-else-if="currentView == 'EWallet'" />
+    <Cards />
   </div>
 </template>
 
@@ -30,9 +30,7 @@ export default {
     this.currentView = "mainView";
   },
   methods: {
-    cardDetails(credentials) {
-      this.userInput = credentials
-    },
+
   },
 };
 </script>

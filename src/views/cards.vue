@@ -1,19 +1,21 @@
 <template>
-  <ul>
-    <Cards v-for="data in Cards" 
-    :key="data.id"
-    :Cards="data"/>
-  </ul>
+  <div>
+    <ul>
+      <AddCardView v-for="data in creditCard" :key="data" />
+    </ul>
+  </div>
 </template>
 
 <script>
-// import CardDetails from './E-Wallet.vue'
+import AddCardView from "./addCard.vue";
 export default {
-  // components: {CardDetails},
-  props: ['Cards']
-}
+  components: { AddCardView },
+  props: ["creditCard"],
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style>
-
 </style>

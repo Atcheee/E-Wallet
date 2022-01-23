@@ -7,9 +7,9 @@
         <button @click="currentView = 'AddCard'">ADD A NEW CARD</button>
       </footer>
     </div>
-    <AddCard v-if="currentView == 'AddCard'"  />
+    <AddCard v-if="currentView == 'AddCard'" />
     <EWallet v-else-if="currentView == 'EWallet'" />
-    <Cards />
+    <Cards v-show="false"/>
   </div>
 </template>
 
@@ -24,14 +24,14 @@ export default {
   data() {
     return {
       currentView: "",
+      cardInfo: "",
     };
   },
   beforeMount() {
     this.currentView = "mainView";
+    // localStorage.clear(); // localStorage.clear(); // insta removes the local storage data REMEMBER TO REMOVE THIS LATER!!!
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
 

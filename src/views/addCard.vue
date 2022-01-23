@@ -95,14 +95,16 @@
             </option>
           </select>
         </p>
-        <button @click="addCard" >ADD CARD</button>
+        <button @click="addCard" @press="currentView == 'mainView'">
+          ADD CARD
+        </button>
       </form>
     </main>
+    <h1>{{ this.Cards }}</h1>
   </div>
 </template>
 
 <script>
-
 function IdGenerator() {
   return Math.floor(Math.random() * Math.pow(10, 25)).toString();
 }
@@ -111,8 +113,11 @@ function perseveredData(data) {
   localStorage.setItem("cardData", JSON.stringify(data));
 }
 
+// import EWallet from './E-Wallet.vue'
+
 export default {
-  props: ['AddCardView'],
+  // components: { EWallet },
+  props: ["AddCardView"],
   data() {
     return {
       userInput: {
@@ -130,14 +135,15 @@ export default {
         "BLOCKCHAIN INC",
         "EVIL CORP",
       ], // not sure if this should be in userInput or not, leaving it here for now
+      currentView: "",
     };
   },
   methods: {
     submit() {
       this.$emit("send", { ...this.userInput });
     },
-    expirationDate() { // combinds the expiration date and the year (plus a slash symbol in the middle)
-      return this.userInput.month + "/" + this.userInput.year;
+    expirationDate() {
+      return this.userInput.month + "/" + this.userInput.year; // combinds the expiration date and the year (plus a slash symbol in the middle)
     },
     addCard() {
       this.Cards.push({
@@ -152,20 +158,12 @@ export default {
       this.content = "";
       perseveredData(this.Cards);
     },
-        addTodo(){
-      this.Cards.push({
-        id: IdGenerator(),
-        content: this.content,
-        done: false
-      })
-      this.content = ''
-      perseveredData(this.Cards)
-    },
   },
   created() {
     let savedCardData = localStorage.getItem("cardData");
     if (savedCardData) {
       this.Cards = JSON.parse(savedCardData);
+      console.log(this.Cards);
     }
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <AddCardView v-for="data in creditCard" :key="data" />
+      <AddCardView v-for="data in Cards" :key="data" />
     </ul>
   </div>
 </template>
@@ -10,9 +10,11 @@
 import AddCardView from "./addCard.vue";
 export default {
   components: { AddCardView },
-  props: ["creditCard"],
+  props: ["CreditCard"],
   data() {
-    return {};
+    return {
+      Cards: [1],
+    };
   },
 };
 </script>

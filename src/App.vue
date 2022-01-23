@@ -3,13 +3,14 @@
     <div class="E-Wallet" v-if="currentView == 'mainView'">
       <h1>E-WALLET</h1>
       <p>ACTIVE CARD</p>
+      <EWallet />
       <footer>
         <button @click="currentView = 'AddCard'">ADD A NEW CARD</button>
       </footer>
     </div>
-    <AddCard v-if="currentView == 'AddCard'" />
-    <EWallet v-else-if="currentView == 'EWallet'" />
-    <Cards v-show="false"/>
+    <AddCard v-if="currentView == 'AddCard'" @send="updateCardData" />
+    <AddCard v-show="false" @send="updateCardData" />
+    <!-- <Cards v-show="true" :CreditCard="CreditCard" /> -->
   </div>
 </template>
 
@@ -17,21 +18,26 @@
 import * as Views from "./views";
 export default {
   components: {
-    Cards: Views.Cards,
+    // Cards: Views.Cards,
     AddCard: Views.AddCard,
     EWallet: Views.EWallet,
   },
   data() {
     return {
       currentView: "",
-      cardInfo: "",
+      CreditCard: "",
     };
   },
   beforeMount() {
     this.currentView = "mainView";
     // localStorage.clear(); // localStorage.clear(); // insta removes the local storage data REMEMBER TO REMOVE THIS LATER!!!
   },
-  methods: {},
+  methods: {
+    updateCardData(data) {
+      this.CreditCard = data;
+      // console.log(this.CreditCard)
+    },
+  },
 };
 </script>
 

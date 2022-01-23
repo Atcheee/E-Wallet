@@ -13,7 +13,7 @@ export default {
   props: ["CreditCard"],
   data() {
     return {
-      Cards: [1],
+      Cards: [],
     };
   },
 };

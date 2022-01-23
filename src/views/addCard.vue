@@ -100,7 +100,6 @@
         </button>
       </form>
     </main>
-    <h1>{{ this.Cards }}</h1>
   </div>
 </template>
 
@@ -140,7 +139,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit("send", { ...this.userInput });
+      this.$emit("send", { ...this.Cards });
     },
     expirationDate() {
       return this.userInput.month + "/" + this.userInput.year; // combinds the expiration date and the year (plus a slash symbol in the middle)
@@ -163,9 +162,11 @@ export default {
     let savedCardData = localStorage.getItem("cardData");
     if (savedCardData) {
       this.Cards = JSON.parse(savedCardData);
-      console.log(this.Cards);
     }
   },
+  beforeMount() {
+    this.$emit("send", { ...this.Cards });
+  }
 };
 </script>
 

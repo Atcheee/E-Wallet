@@ -29,7 +29,7 @@ export default {
   },
   beforeMount() {
     this.currentView = "mainView";
-    // localStorage.clear(); // localStorage.clear(); // insta removes the local storage data REMEMBER TO REMOVE THIS LATER!!!
+    // localStorage.clear(); // insta removes the local storage data REMEMBER TO REMOVE THIS LATER!!!
   },
   methods: {
     updateCardData(data) {

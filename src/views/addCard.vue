@@ -12,8 +12,9 @@
         <div class="card-front card-part" :class="bgcolor">
           <img class="card-wifi" src="../assets/wifi.svg" alt="wifi icon" />
           <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
-          <img class="card-logo" src="" />
+          <img class="card-logo" />
           <p class="card_number">{{ userInput.cardNumber }}</p>
+          <p class="card_number" v-if='userInput.cardNumber == ""'>**** **** **** ****</p>
           <div class="card-space-75">
             <span class="card-label">CARDHOLDER NAME</span>
             <p class="card-info">{{ userInput.cardHolder }}</p>
@@ -37,6 +38,8 @@
             type="number"
             name="cardNumber"
             v-model="userInput.cardNumber"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            maxlength = "16"
           />
         </p>
 
@@ -48,6 +51,7 @@
             type="text"
             name="cardHolder"
             v-model="userInput.cardHolder"
+            @input="onlyLetters"
           />
         </p>
 
@@ -84,7 +88,8 @@
         </p>
 
         <p>
-          <label for="vendor"></label>
+          <label for="vendor">CHOOSE A VENDOR</label>
+          <br />
           <select id="vendor" name="vendor" v-model="bgcolor">
             <option disabled selected value>-- select an option --</option>
             <option
@@ -95,11 +100,13 @@
             </option>
           </select>
         </p>
+      </form>
+    </main>
+    <footer>      
         <button @click="addCard" @press="currentView == 'mainView'">
           ADD CARD
         </button>
-      </form>
-    </main>
+    </footer>
   </div>
 </template>
 
@@ -114,8 +121,9 @@ export default {
   props: ["AddCardView"],
   data() {
     return {
+      currentView: "",
       userInput: {
-        cardNumber: null,
+        cardNumber: "",
         cardHolder: null,
         month: "",
         year: "",
@@ -128,7 +136,12 @@ export default {
         "BLOCKCHAIN INC",
         "EVIL CORP",
       ], // not sure if this should be in userInput or not, leaving it here for now
-      currentView: "",
+      srcImg: [
+        "../assets/bitcoin.svg",
+        "../assets/ninja.svg",
+        "../assets/blockchain.svg",
+        "../assets/evil.svg",
+      ],
     };
   },
   methods: {
@@ -149,6 +162,9 @@ export default {
       });
       perseveredData(this.Cards);
     },
+    onlyLetters() {
+      this.userInput.cardHolder = this.userInput.cardHolder.replaceAll(/[^a-zA-Z\s]+/g, "").toUpperCase();
+    },
   },
   created() {
     let savedCardData = localStorage.getItem("cardData");
@@ -162,7 +178,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap");
 * {
   box-sizing: border-box;
@@ -196,7 +212,6 @@ body {
   box-shadow: 1px 1px #aaa3a3;
   top: 0;
   position: absolute;
-  z-index: 1000;
   left: 0;
   display: inline-block;
   width: 320px;
@@ -247,47 +262,42 @@ body {
   display: block;
   width: 100%;
   word-spacing: 4px;
-  font-size: 20px;
+  font-size: 15px;
   letter-spacing: 2px;
   color: #fff;
-  text-align: center;
+  text-align: left;
   margin-bottom: 20px;
   margin-top: 20px;
+  padding-left: 60px;
 }
 
 .card-space-75 {
-  width: 75%;
   float: left;
+  padding-top: 35px;
 }
 
 .card-space-25 {
-  width: 25%;
-  float: left;
+  float: right;
+  padding-top: 35px;
 }
 
 .card-label {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8);
   letter-spacing: 1px;
 }
 
 .card-info {
-  margin-bottom: 0;
+  padding-bottom: 10px;
   margin-top: 5px;
   font-size: 16px;
   line-height: 18px;
   color: #fff;
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-
-form {
-  button {
-    color: white;
-    background-color: black;
-    font-size: 18px;
-  }
+  position: absolute;
+  bottom: 0;
 }
 
 .BITCOIN.INC {

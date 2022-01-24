@@ -10,7 +10,6 @@
     </div>
     <AddCard v-if="currentView == 'AddCard'" @send="updateCardData" />
     <AddCard v-show="false" @send="updateCardData" />
-    <!-- <Cards v-show="true" :CreditCard="CreditCard" /> -->
   </div>
 </template>
 
@@ -18,9 +17,9 @@
 import * as Views from "./views";
 export default {
   components: {
-    // Cards: Views.Cards,
     AddCard: Views.AddCard,
     EWallet: Views.EWallet,
+    // Probably could delete cards.vue but i'll wait until i'm 100% i can do so
   },
   data() {
     return {
@@ -35,7 +34,6 @@ export default {
   methods: {
     updateCardData(data) {
       this.CreditCard = data;
-      // console.log(this.CreditCard)
     },
   },
 };

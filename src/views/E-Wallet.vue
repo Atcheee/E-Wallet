@@ -3,19 +3,19 @@
     <li v-for="(data, items) in CreditCard" :key="items">
       <div id="Cards">
         <div class="card">
-          <div class="card-front card-part">
+          <div class="card-front card-part" :class="data.content.cardColor">
             <img class="card-wifi" src="../assets/wifi.svg" alt="wifi icon" />
             <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
             <img class="card-logo" src="" />
-            <p class="card_number">data.content</p>
+            <p class="card_number">{{ data.content.cardNumber }}</p>
             <div class="card-space-75">
               <span class="card-label">CARDHOLDER NAME</span>
-              <p class="card-info">{{ data.content }}</p>
+              <p class="card-info">{{ data.content.cardHolder }}</p>
             </div>
             <div>
               <div class="card-space-25">
                 <span class="card-label">Valid Thru</span>
-                <p class="card-info">{{ data.content }}</p>
+                <p class="card-info">{{ data.content.expirationDate }}</p>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@ body {
   word-spacing: 4px;
   font-size: 20px;
   letter-spacing: 2px;
-  color: #fff;
+  color: black;
   text-align: center;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -170,6 +170,10 @@ form {
     background-color: black;
     font-size: 18px;
   }
+}
+
+ul {
+  list-style-type: none;
 }
 
 .BITCOIN.INC {

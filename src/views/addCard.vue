@@ -104,18 +104,13 @@
 </template>
 
 <script>
-function IdGenerator() {
-  return Math.floor(Math.random() * Math.pow(10, 25)).toString();
-}
 
 function perseveredData(data) {
   localStorage.setItem("cardData", JSON.stringify(data));
 }
 
-// import EWallet from './E-Wallet.vue'
-
 export default {
-  // components: { EWallet },
+  components: {},
   props: ["AddCardView"],
   data() {
     return {
@@ -125,7 +120,6 @@ export default {
         month: "",
         year: "",
       },
-      content: "",
       Cards: [],
       bgcolor: "defaultColor",
       colorClasses: [
@@ -146,15 +140,13 @@ export default {
     },
     addCard() {
       this.Cards.push({
-        id: IdGenerator(),
-        content:
-          this.userInput.cardNumber +
-          " " +
-          this.userInput.cardHolder +
-          " " +
-          this.expirationDate(),
+        content: {
+        cardNumber: this.userInput.cardNumber,
+        cardHolder: this.userInput.cardHolder,
+        expirationDate: this.expirationDate(),
+        cardColor: this.bgcolor,
+        }
       });
-      this.content = "";
       perseveredData(this.Cards);
     },
   },

@@ -11,7 +11,10 @@ import EWallet from "../components/E-Wallet.vue";
 export default {
   components: { EWallet },
   data() {
-    return {};
+    return {
+    };
+  },
+  methods: {
   },
 };
 </script>

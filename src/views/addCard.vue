@@ -156,6 +156,7 @@ export default {
           cardHolder: this.userInput.cardHolder,
           expirationDate: this.expirationDate(),
           cardColor: this.bgcolor,
+          id: this.Cards.length,
         },
       });
       perseveredData(this.Cards);

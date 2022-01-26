@@ -25,7 +25,7 @@ export default {
   },
   beforeMount() {
     this.currentView = "Home";
-    // localStorage.clear(); // insta removes the local storage data REMEMBER TO REMOVE THIS LATER!!!
+    // localStorage.clear(); // uncomment if you want to clear the cards
   },
   methods: {
     updateCardData(data) {

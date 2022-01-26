@@ -1,7 +1,7 @@
-import Cards from './cards.vue'
+import EWallet from '../components/E-Wallet.vue'
+import Cards from '../components/cards.vue'
 import AddCard from './addCard.vue'
-import EWallet from './E-Wallet.vue'
-import App from '../App.vue'
+import Home from './Home.vue'
 
 
-export {Cards, AddCard, EWallet, App}
+export {Cards, AddCard, EWallet, Home}

@@ -14,7 +14,9 @@
           <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
           <img class="card-logo" />
           <p class="card_number">{{ userInput.cardNumber }}</p>
-          <p class="card_number" v-if='userInput.cardNumber == ""'>**** **** **** ****</p>
+          <p class="card_number" v-if="userInput.cardNumber == ''">
+            **** **** **** ****
+          </p>
           <div class="card-space-75">
             <span class="card-label">CARDHOLDER NAME</span>
             <p class="card-info">{{ userInput.cardHolder }}</p>
@@ -39,7 +41,7 @@
             name="cardNumber"
             v-model="userInput.cardNumber"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            maxlength = "16"
+            maxlength="16"
           />
         </p>
 
@@ -102,16 +104,13 @@
         </p>
       </form>
     </main>
-    <footer>      
-        <button @click="addCard" @press="currentView == 'mainView'">
-          ADD CARD
-        </button>
+    <footer>
+      <button @click="addCard(); reload()">ADD CARD</button>
     </footer>
   </div>
 </template>
 
 <script>
-
 function perseveredData(data) {
   localStorage.setItem("cardData", JSON.stringify(data));
 }
@@ -121,7 +120,6 @@ export default {
   props: ["AddCardView"],
   data() {
     return {
-      currentView: "",
       userInput: {
         cardNumber: "",
         cardHolder: null,
@@ -154,16 +152,21 @@ export default {
     addCard() {
       this.Cards.push({
         content: {
-        cardNumber: this.userInput.cardNumber,
-        cardHolder: this.userInput.cardHolder,
-        expirationDate: this.expirationDate(),
-        cardColor: this.bgcolor,
-        }
+          cardNumber: this.userInput.cardNumber,
+          cardHolder: this.userInput.cardHolder,
+          expirationDate: this.expirationDate(),
+          cardColor: this.bgcolor,
+        },
       });
       perseveredData(this.Cards);
     },
     onlyLetters() {
-      this.userInput.cardHolder = this.userInput.cardHolder.replaceAll(/[^a-zA-Z\s]+/g, "").toUpperCase();
+      this.userInput.cardHolder = this.userInput.cardHolder
+        .replaceAll(/[^a-zA-Z\s]+/g, "")
+        .toUpperCase();
+    },
+    reload() {
+      window.location.reload();
     },
   },
   created() {
@@ -174,7 +177,7 @@ export default {
   },
   beforeMount() {
     this.$emit("send", { ...this.Cards });
-  }
+  },
 };
 </script>
 

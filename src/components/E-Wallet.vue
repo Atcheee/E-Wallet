@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import AddCard from "./addCard.vue";
+import AddCard from "../views/addCard.vue";
 export default {
   components: { AddCard },
   props: ["cardDetail"],
@@ -45,7 +45,12 @@ export default {
 </script>
 
 <style lang="scss">
+
 ul {
-  list-style-type: none;
+  li {
+    display: grid;
+    grid-auto-rows: auto;
+    height: 70px;
+  }
 }
 </style>

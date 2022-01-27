@@ -1,43 +1,70 @@
 <template>
   <div>
-    <li v-for="(data, items) in CreditCard" :key="items">
-      <div id="Cards">
-        <div class="card">
-          <div class="card-front card-part" :class="data.content.cardColor">
-            <img class="card-wifi" src="../assets/wifi.svg" alt="wifi icon" />
-            <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
-            <img class="card-logo" src="" />
-            <p class="card_number">{{ data.content.cardNumber }}</p>
-            <div class="card-space-75">
-              <span class="card-label">CARDHOLDER NAME</span>
-              <p class="card-info">{{ data.content.cardHolder }}</p>
-            </div>
-            <div>
-              <div class="card-space-25">
-                <span class="card-label">Valid Thru</span>
-                <p class="card-info">{{ data.content.expirationDate }}</p>
-              </div>
-            </div>
+    <section
+      class="card"
+      id="Cards"
+      @click="$emit('activeCard, index')"
+      :style="{ background: vendorBackgroundColors, color: vendorTextColors }"
+    >
+      <div class="card-front card-part" :class="card.cardColor">
+        <img v-if="card.vendor === 'bitcoin' || card.vendor === 'ninja'" class="card-wifi" src="../assets/wifi_white.svg" alt="white wifi icon" />
+        <img v-else class="card-wifi" src="../assets/wifi.svg" alt="default wifi icon" />
+        <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
+        <img class="card-logo" v-if="card.vendor" :src="require(`../assets/${card.vendor}.svg`)" />
+        <p class="card_number">{{ card.cardNumber }}</p>
+        <div class="card-space-75">
+          <span class="card-label">CARDHOLDER NAME</span>
+          <p class="card-info" @input="onlyLetters">{{ card.cardHolder }}</p>
+        </div>
+        <div>
+          <div class="card-space-25">
+            <span class="card-label">Valid Thru</span>
+            <p class="card-info">
+              {{ card.expirationMonth }} / {{ card.expirationYear }}
+            </p>
           </div>
         </div>
       </div>
-    </li>
+    </section>
   </div>
 </template>
 
 <script>
-// import AddCardView from "../views/addCard.vue";
 export default {
-  // components: { AddCardView },
-  props: ["CreditCard"],
-  data() {
-    return {
-      Cards: [],
-    };
+  props: { card: Object },
+  computed: {
+    vendorBackgroundColors() {
+      if (this.card.vendor === "bitcoin") {
+        return "#ffae34";
+      } else if (this.card.vendor === "ninja") {
+        return "#222222";
+      } else if (this.card.vendor === "blockchain") {
+        return "#8b58f9";
+      } else if (this.card.vendor === "evil") {
+        return "#f33355";
+      } else {
+        return "#d0d0d0";
+      }
+    },
+    vendorTextColors() {
+      if (this.card.vendor === "BITCOIN INC") {
+        return "black";
+      } else if (this.card.vendor === "NINJA BANK") {
+        return "white";
+      } else if (this.card.vendor === "BLOCKCHAIN INC") {
+        return "white";
+      } else if (this.card.vendor === "EVIL CORP") {
+        return "white";
+      } else {
+        return "black";
+      }
+    },
   },
   methods: {
-    updateCardData(data) {
-      this.CreditCard = data;
+    onlyLetters() {
+      this.card.cardHolder = this.card.cardHolder
+        .replaceAll(/[^a-zA-Z\s]+/g, "")
+        .toUpperCase();
     },
   },
 };
@@ -67,10 +94,8 @@ body {
   -webkit-perspective: 600px;
   -moz-perspective: 600px;
   perspective: 600px;
-}
-
-#Cards {
   display: inline-block;
+  border-radius: 8px;
 }
 
 .card-part {
@@ -87,7 +112,7 @@ body {
   border-radius: 8px;
 }
 
-.defaultColor {
+.vendor {
   background: gray;
 }
 
@@ -156,7 +181,7 @@ body {
 .card-info {
   padding-bottom: 10px;
   margin-top: 5px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 18px;
   color: #fff;
   letter-spacing: 1px;
@@ -165,16 +190,4 @@ body {
   bottom: 0;
 }
 
-.BITCOIN.INC {
-  background-color: #ffae34;
-}
-.NINJA.BANK {
-  background-color: #222222;
-}
-.BLOCKCHAIN.INC {
-  background-color: #8b58f9;
-}
-.EVIL.CORP {
-  background-color: #f33355;
-}
 </style>

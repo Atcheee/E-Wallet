@@ -6,30 +6,8 @@
         BANK CARD
       </h1>
       <p>NEW CARD</p>
+      <Cards :card="card" />
     </header>
-    <div id="Cards">
-      <div class="card">
-        <div class="card-front card-part" :class="bgcolor">
-          <img class="card-wifi" src="../assets/wifi.svg" alt="wifi icon" />
-          <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
-          <img class="card-logo" />
-          <p class="card_number">{{ userInput.cardNumber }}</p>
-          <p class="card_number" v-if="userInput.cardNumber == ''">
-            **** **** **** ****
-          </p>
-          <div class="card-space-75">
-            <span class="card-label">CARDHOLDER NAME</span>
-            <p class="card-info">{{ userInput.cardHolder }}</p>
-          </div>
-          <div>
-            <div class="card-space-25">
-              <span class="card-label">Valid Thru</span>
-              <p class="card-info">{{ expirationDate() }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <main>
       <form action="" method="post" @submit.prevent="submit">
         <p>
@@ -39,7 +17,7 @@
             id="cardNumber"
             type="number"
             name="cardNumber"
-            v-model="userInput.cardNumber"
+            v-model="card.cardNumber"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
             maxlength="16"
           />
@@ -52,15 +30,15 @@
             id="cardHolder"
             type="text"
             name="cardHolder"
-            v-model="userInput.cardHolder"
-            @input="onlyLetters"
+            v-model="card.cardHolder"
+
           />
         </p>
 
         <p>
           <label for="month">MONTH</label>
           <br />
-          <select name="month" id="month" v-model="userInput.month">
+          <select name="month" id="month" v-model="card.expirationMonth">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -79,7 +57,7 @@
         <p>
           <label for="year">YEAR</label>
           <br />
-          <select name="year" id="year" v-model="userInput.year">
+          <select name="year" id="year" v-model="card.expirationYear">
             <option>21</option>
             <option>22</option>
             <option>23</option>
@@ -92,48 +70,45 @@
         <p>
           <label for="vendor">CHOOSE A VENDOR</label>
           <br />
-          <select id="vendor" name="vendor" v-model="bgcolor">
+          <select id="vendor" name="vendor" v-model="card.vendor">
             <option disabled selected value>-- select an option --</option>
-            <option
-              v-for="backgroundClass in this.colorClasses"
-              :key="backgroundClass"
-            >
-              {{ backgroundClass }}
-            </option>
+					<option value="" disabled selected hidden></option>
+					<option value="bitcoin">BITCOIN INC</option>
+					<option value="ninja">NINJA BANK</option>
+					<option value="blockchain">BLOCKCHAIN INC</option>
+					<option value="evil">EVIL CORP</option>
           </select>
         </p>
+      <button @click="$emit('changeCurrentView'), submit()" :cards="cards" type="submit">ADD CARD</button>
       </form>
     </main>
-    <footer>
-      <button @click="addCard(); reload()">ADD CARD</button>
-    </footer>
   </div>
 </template>
 
 <script>
-function perseveredData(data) {
-  localStorage.setItem("cardData", JSON.stringify(data));
-}
-
+// function perseveredData(data) {
+//   localStorage.setItem("cardData", JSON.stringify(data));
+// }
+import Cards from "../components/cards.vue";
 export default {
-  components: {},
-  props: ["AddCardView"],
+  props: { cards: Array },
+  components: { Cards },
   data() {
     return {
-      userInput: {
+      card: {
         cardNumber: "",
-        cardHolder: null,
-        month: "",
-        year: "",
+        cardHolder: "",
+        expirationMonth: "",
+        expirationYear: "",
+        vendor: "",
       },
-      Cards: [],
       bgcolor: "defaultColor",
       colorClasses: [
         "BITCOIN INC",
         "NINJA BANK",
         "BLOCKCHAIN INC",
         "EVIL CORP",
-      ], // not sure if this should be in userInput or not, leaving it here for now
+      ],
       srcImg: [
         "../assets/bitcoin.svg",
         "../assets/ninja.svg",
@@ -144,41 +119,18 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit("send", { ...this.Cards });
-    },
-    expirationDate() {
-      return this.userInput.month + "/" + this.userInput.year; // combinds the expiration date and the year (plus a slash symbol in the middle)
-    },
-    addCard() {
-      this.Cards.push({
-        content: {
-          cardNumber: this.userInput.cardNumber,
-          cardHolder: this.userInput.cardHolder,
-          expirationDate: this.expirationDate(),
-          cardColor: this.bgcolor,
-          id: this.Cards.length,
-        },
-      });
-      perseveredData(this.Cards);
-    },
-    onlyLetters() {
-      this.userInput.cardHolder = this.userInput.cardHolder
-        .replaceAll(/[^a-zA-Z\s]+/g, "")
-        .toUpperCase();
-    },
-    reload() {
-      window.location.reload();
+      this.$emit("card", { ...this.card });
     },
   },
-  created() {
-    let savedCardData = localStorage.getItem("cardData");
-    if (savedCardData) {
-      this.Cards = JSON.parse(savedCardData);
-    }
-  },
-  beforeMount() {
-    this.$emit("send", { ...this.Cards });
-  },
+  // created() {
+  //   let savedCardData = localStorage.getItem("cardData");
+  //   if (savedCardData) {
+  //     this.Cards = JSON.parse(savedCardData);
+  //   }
+  // },
+  // beforeMount() {
+  //   this.$emit("send", { ...this.Cards });
+  // },
 };
 </script>
 
@@ -198,122 +150,5 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-}
-
-.card {
-  width: 320px;
-  height: 190px;
-  -webkit-perspective: 600px;
-  -moz-perspective: 600px;
-  perspective: 600px;
-}
-
-#Cards {
-  display: inline-block;
-}
-
-.card-part {
-  box-shadow: 1px 1px #aaa3a3;
-  top: 0;
-  position: absolute;
-  left: 0;
-  display: inline-block;
-  width: 320px;
-  height: 190px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  border-radius: 8px;
-}
-
-.defaultColor {
-  background: gray;
-}
-
-.card-front {
-  padding: 18px;
-}
-
-.card-black-line {
-  margin-top: 5px;
-  height: 38px;
-  background-color: #303030;
-}
-
-.card-logo {
-  height: 32px;
-  position: absolute;
-  top: 18px;
-  right: 18px;
-}
-
-.card-wifi {
-  height: 40px;
-  left: 0;
-  position: absolute;
-  margin-left: 1.5rem;
-  margin-top: -0.5rem;
-}
-
-.card-chip {
-  height: 30px;
-  left: 0;
-  position: absolute;
-  margin: 1.5rem;
-}
-
-.card_number {
-  display: block;
-  width: 100%;
-  word-spacing: 4px;
-  font-size: 15px;
-  letter-spacing: 2px;
-  color: #fff;
-  text-align: left;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  padding-left: 60px;
-}
-
-.card-space-75 {
-  float: left;
-  padding-top: 35px;
-}
-
-.card-space-25 {
-  float: right;
-  padding-top: 35px;
-}
-
-.card-label {
-  font-size: 9px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 1px;
-}
-
-.card-info {
-  padding-bottom: 10px;
-  margin-top: 5px;
-  font-size: 16px;
-  line-height: 18px;
-  color: #fff;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  position: absolute;
-  bottom: 0;
-}
-
-.BITCOIN.INC {
-  background-color: #ffae34;
-}
-.NINJA.BANK {
-  background-color: #222222;
-}
-.BLOCKCHAIN.INC {
-  background-color: #8b58f9;
-}
-.EVIL.CORP {
-  background-color: #f33355;
 }
 </style>

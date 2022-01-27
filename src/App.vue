@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <Home v-if="currentView == 'Home'" @send="updateCardData" />
-    <footer>
-      <button v-if="currentView == 'Home'" @click="currentView = 'AddCard'">
-        ADD A NEW CARD
-      </button>
-    </footer>
-    <AddCard v-if="currentView == 'AddCard'" @send="updateCardData" />
+    <Home
+      v-if="currentView == 'Home'"
+      :cards="cards"
+      @changeCurrentView="currentView = 'AddCard'"
+    />
+    <AddCard
+      v-if="currentView == 'AddCard'"
+      @card="saveCard"
+      :cards="cards"
+      @changeCurrentView="currentView = 'Home'"
+    />
   </div>
 </template>
 
@@ -19,17 +23,28 @@ export default {
   },
   data() {
     return {
-      currentView: "",
-      CreditCard: "",
+      currentView: "Home",
+      cards: [
+      {
+      vendor: "bitcoin", 
+      cardNumber: "8008580085800500", 
+      cardHolder: "VIKARD RIRTA", 
+      expirationMonth: "07", 
+      expirationYear: "23", 
+      },
+      {
+      vendor: "evil", 
+      cardNumber: "1234567891098765", 
+      cardHolder: "RAN DOM", 
+      expirationMonth: "09", 
+      expirationYear: "19", 
+      },
+      ],
     };
   },
-  beforeMount() {
-    this.currentView = "Home";
-    // localStorage.clear(); // uncomment if you want to clear the cards
-  },
   methods: {
-    updateCardData(data) {
-      this.CreditCard = data;
+    saveCard(card) {
+      this.cards.push(card);
     },
   },
 };
@@ -81,17 +96,14 @@ button {
 p {
   font-size: 0.8rem;
 }
-footer {
-  display: flex;
-  flex-direction: column;
-  button {
-    font-size: 1.5rem;
-    font-weight: 600;
-    border: 1;
-    border-radius: 8px;
-    padding: 1rem;
-    color: black;
-    background-color: white;
-  }
+
+button {
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: 1;
+  border-radius: 8px;
+  padding: 1rem;
+  color: black;
+  background-color: white;
 }
 </style>

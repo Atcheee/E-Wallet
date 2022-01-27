@@ -1,17 +1,9 @@
 <template>
   <div class="E-Wallet">
-    <div class="activeCard" v-if="activeCard">
-      <h1>E-WALLET</h1>
-      <p>ACTIVE CARD</p>
-      <EWallet
-        :cards="cards"
-        @toggleActive="toggleActiveCard"
-      />
-    </div>
-    <!-- <EWallet @click="makeCardActive(card)" :cards="cards" /> -->
-    <footer>
-      <button @click="$emit('changeCurrentView')">ADD A NEW CARD</button>
-    </footer>
+    <h1>E-WALLET</h1>
+    <p>ACTIVE CARD</p>
+    <EWallet :cards="cards" @toggleActiveCard="toggleActiveCard" />
+    <button @click="$emit('changeCurrentView')">ADD A NEW CARD</button>
   </div>
 </template>
 
@@ -22,18 +14,12 @@ export default {
   props: { cards: Array },
   data() {
     return {
-      activeCard: this.cards,
     };
   },
   methods: {
-    toggleActiveCard(item) {
-      this.$emit("toggleActiveCard", item);
+    toggleActiveCard(index) {
+      this.$emit("toggleActiveCard", index);
     },
-  },
-  computed: {
-    // filterActiveCard() {
-    //   return this.cards.filter((card) => card != this.activeCard);
-    // },
   },
 };
 </script>
@@ -50,5 +36,24 @@ button {
   grid-auto-rows: auto;
   list-style-type: none;
   justify-content: center;
+}
+
+h1 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+p,
+button {
+  font-family: "PT Mono";
+}
+
+p {
+  font-size: 0.8rem;
 }
 </style>

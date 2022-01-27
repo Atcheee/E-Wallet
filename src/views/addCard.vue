@@ -101,20 +101,8 @@ export default {
         expirationMonth: "",
         expirationYear: "",
         vendor: "",
+        activeDisplayCard: false,
       },
-      bgcolor: "defaultColor",
-      colorClasses: [
-        "BITCOIN INC",
-        "NINJA BANK",
-        "BLOCKCHAIN INC",
-        "EVIL CORP",
-      ],
-      srcImg: [
-        "../assets/bitcoin.svg",
-        "../assets/ninja.svg",
-        "../assets/blockchain.svg",
-        "../assets/evil.svg",
-      ],
     };
   },
   methods: {

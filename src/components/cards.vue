@@ -3,8 +3,8 @@
     <section
       class="card"
       id="Cards"
-      @click="$emit('activeCard, index')"
-      :style="{ background: vendorBackgroundColors, color: vendorTextColors }"
+      @click="$emit('activeCard', index)"
+      :style="{ background: cardBackgroundColors, color: cardTextColors }"
     >
       <div class="card-front card-part" :class="card.cardColor">
         <img v-if="card.vendor === 'bitcoin' || card.vendor === 'ninja'" class="card-wifi" src="../assets/wifi_white.svg" alt="white wifi icon" />
@@ -31,9 +31,9 @@
 
 <script>
 export default {
-  props: { card: Object },
+  props: { card: Object, index: Number},
   computed: {
-    vendorBackgroundColors() {
+    cardBackgroundColors() {
       if (this.card.vendor === "bitcoin") {
         return "#ffae34";
       } else if (this.card.vendor === "ninja") {
@@ -46,7 +46,7 @@ export default {
         return "#d0d0d0";
       }
     },
-    vendorTextColors() {
+    cardTextColors() {
       if (this.card.vendor === "BITCOIN INC") {
         return "black";
       } else if (this.card.vendor === "NINJA BANK") {

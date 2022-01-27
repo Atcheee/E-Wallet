@@ -4,6 +4,7 @@
       v-if="currentView == 'Home'"
       :cards="cards"
       @changeCurrentView="currentView = 'AddCard'"
+      @toggleActiveCard="toggleActiveCard"
     />
     <AddCard
       v-if="currentView == 'AddCard'"
@@ -25,26 +26,38 @@ export default {
     return {
       currentView: "Home",
       cards: [
-      {
-      vendor: "bitcoin", 
-      cardNumber: "8008580085800500", 
-      cardHolder: "VIKARD RIRTA", 
-      expirationMonth: "07", 
-      expirationYear: "23", 
-      },
-      {
-      vendor: "evil", 
-      cardNumber: "1234567891098765", 
-      cardHolder: "RAN DOM", 
-      expirationMonth: "09", 
-      expirationYear: "19", 
-      },
+        // just some ready made cards to see how it looks
+        {
+          vendor: "bitcoin",
+          cardNumber: "1223334444555555",
+          cardHolder: "Someone Famous",
+          expirationMonth: "2",
+          expirationYear: "29",
+          activeDisplayCard: false,
+        },
+        {
+          vendor: "evil",
+          cardNumber: "1234567891098765",
+          cardHolder: "RAN DOM",
+          expirationMonth: "09",
+          expirationYear: "19",
+          activeDisplayCard: false,
+        },
       ],
     };
   },
   methods: {
     saveCard(card) {
       this.cards.push(card);
+    },
+    toggleActiveCard(index) {
+      for (const cardActivity of this.cards) {
+        if (cardActivity.activeDisplayCard === true) {
+          cardActivity.activeDisplayCard = false;
+        }
+      }
+			this.cards[index].activeDisplayCard = !this.cards[index].activeDisplayCard;
+      console.log(index)
     },
   },
 };
@@ -76,25 +89,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-h1 {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 35px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 35px;
-  letter-spacing: 0em;
-  text-align: center;
-}
-
-p,
-button {
-  font-family: "PT Mono";
-}
-
-p {
-  font-size: 0.8rem;
 }
 
 button {

@@ -1,11 +1,9 @@
 <template>
   <div>
-    <section>
-      <div v-for="(card, item) in cards" :key="card.cardNumber">
-          <Card v-if="card.active" :card="card" :index="item" />
-          <Card :card="card" @activeCard="toggleActiveCard" :index="item" class="cardsOnTop" />
-      </div>
-    </section>
+    <div v-for="(card, item) in cards" :key="card.cardNumber">
+      <Card v-if="card.activeDisplayCard" :card="card" :index="item" />
+      <Card :card="card" @activeCard="toggleActiveCard" :index="item" class="cardsOnTop" />
+    </div>
   </div>
 </template>
 
@@ -18,18 +16,18 @@ export default {
     return {};
   },
   methods: {
-    toggleActiveCard(item) {
-      this.$emit("toggleActiveCard", item);
+    toggleActiveCard(index) {
+      this.$emit("toggleActiveCard", index);
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .cardsOnTop {
   display: grid;
   grid-auto-rows: auto;
-  height: 70px;
+  height: 80px;
   list-style-type: none;
   justify-content: center;
 }

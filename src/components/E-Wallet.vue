@@ -28,7 +28,5 @@ export default {
   display: grid;
   grid-auto-rows: auto;
   height: 80px;
-  list-style-type: none;
-  justify-content: center;
 }
 </style>

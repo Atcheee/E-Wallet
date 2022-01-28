@@ -4,11 +4,10 @@
       class="card"
       id="Cards"
       @click="$emit('activeCard', index)"
-      :style="{ background: cardBackgroundColors, color: cardTextColors }"
+      :style="{ background: cardBackgroundColors}"
     >
       <div class="card-front card-part" :class="card.cardColor">
-        <img v-if="card.vendor === 'bitcoin' || card.vendor === 'ninja'" class="card-wifi" src="../assets/wifi_white.svg" alt="white wifi icon" />
-        <img v-else class="card-wifi" src="../assets/wifi.svg" alt="default wifi icon" />
+        <img class="card-wifi" src="../assets/wifi_white.svg" alt="white wifi icon" />
         <img class="card-chip" src="../assets/chip.svg" alt="card chip" />
         <img class="card-logo" v-if="card.vendor" :src="require(`../assets/${card.vendor}.svg`)" />
         <p class="card_number">{{ card.cardNumber }}</p>
@@ -44,19 +43,6 @@ export default {
         return "#f33355";
       } else {
         return "#d0d0d0";
-      }
-    },
-    cardTextColors() {
-      if (this.card.vendor === "BITCOIN INC") {
-        return "black";
-      } else if (this.card.vendor === "NINJA BANK") {
-        return "white";
-      } else if (this.card.vendor === "BLOCKCHAIN INC") {
-        return "white";
-      } else if (this.card.vendor === "EVIL CORP") {
-        return "white";
-      } else {
-        return "black";
       }
     },
   },

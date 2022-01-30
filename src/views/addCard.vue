@@ -71,7 +71,7 @@
           <label for="vendor">CHOOSE A VENDOR</label>
           <br />
           <select id="vendor" name="vendor" v-model="card.vendor">
-            <option disabled selected value>-- select an option --</option>
+          <option disabled selected value>-- select an option --</option>
 					<option value="" disabled selected hidden></option>
 					<option value="bitcoin">BITCOIN INC</option>
 					<option value="ninja">NINJA BANK</option>

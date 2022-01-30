@@ -4,7 +4,7 @@
       class="card"
       id="Cards"
       @click="$emit('activeCard', index)"
-      :style="{ background: cardBackgroundColors}"
+      :class="card.vendor"
     >
       <div class="card-front card-part" :class="card.cardColor">
         <img class="card-wifi" src="../assets/wifi_white.svg" alt="white wifi icon" />
@@ -31,21 +31,6 @@
 <script>
 export default {
   props: { card: Object, index: Number},
-  computed: {
-    cardBackgroundColors() {
-      if (this.card.vendor === "bitcoin") {
-        return "#ffae34";
-      } else if (this.card.vendor === "ninja") {
-        return "#222222";
-      } else if (this.card.vendor === "blockchain") {
-        return "#8b58f9";
-      } else if (this.card.vendor === "evil") {
-        return "#f33355";
-      } else {
-        return "#d0d0d0";
-      }
-    },
-  },
   methods: {
     onlyLetters() {
       this.card.cardHolder = this.card.cardHolder
@@ -82,6 +67,7 @@ body {
   perspective: 600px;
   display: inline-block;
   border-radius: 8px;
+  background: #d0d0d0;
 }
 
 .card-part {
@@ -176,4 +162,16 @@ body {
   bottom: 0;
 }
 
+.bitcoin {
+  background-color: #ffae34;
+}
+.ninja {
+  background-color: #222222;
+}
+.blockchain {
+  background-color: #8b58f9;
+}
+.evil {
+  background-color: #f33355;
+}
 </style>

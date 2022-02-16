@@ -1,8 +1,15 @@
 <template>
   <div>
-    <div v-for="(card, item) in cards" :key="card.cardNumber">
+    <div v-for="(card, item) in cards" :key="card.cardNumber[item]">
       <Card v-if="card.activeDisplayCard" :card="card" :index="item" />
-      <Card :card="card" @activeCard="toggleActiveCard" :index="item" class="cardsOnTop" />
+    </div>
+    <div v-for="(card, item) in cards" :key="card.cardNumber">
+      <Card
+        :card="card"
+        @activeCard="toggleActiveCard"
+        :index="item"
+        class="cardsOnTop"
+      />
     </div>
   </div>
 </template>

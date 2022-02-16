@@ -25,6 +25,8 @@ export default {
   data() {
     return {
       currentView: "Home",
+      title: "E-WALLET",
+      cardTitle: "Active card",
       cards: [
         // just some ready made cards to see how it looks
         {
@@ -56,8 +58,8 @@ export default {
           cardActivity.activeDisplayCard = false;
         }
       }
-			this.cards[index].activeDisplayCard = !this.cards[index].activeDisplayCard;
-      console.log(index)
+      this.cards[index].activeDisplayCard =
+        !this.cards[index].activeDisplayCard;
     },
   },
 };

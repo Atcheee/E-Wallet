@@ -13,8 +13,7 @@ export default {
   components: { EWallet },
   props: { cards: Array },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     toggleActiveCard(index) {
